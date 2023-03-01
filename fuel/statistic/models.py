@@ -1,6 +1,10 @@
+from __future__ import unicode_literals
+
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractUser
-# Create your models here.
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+from datetime import datetime, timedelta
+from django.conf import settings
+import jwt
 
 
 class Firm(models.Model):
@@ -83,6 +87,20 @@ class RegistredUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    @property
+    def token(self):
+        return self._generate_jtw_token()
+
+    def _generate_jwt_token(self):
+        dt = datetime.now() + timedelta(days=1)
+
+        token = jwt.encode({
+            'id': self.pk,
+            'exp': int(dt.strftime('%s'))
+        }, settings.SECRET_KEY, algorithm='HS256')
+
+        return token
 
 
 class Car(models.Model):
