@@ -43,3 +43,31 @@ class RegistrationView(APIView):
         return Response(serializer.data)
 
 
+class ActivationAccountView(APIView):
+    permission_classes = (AllowAny, )
+
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = RegistredUser.objects.get(id=uid)
+        except Exception as e:
+            user = None
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return Response('Thank you for email confirmation!')
+        return Response('Somethong wrong with your account', status=403)
+
+
+class LoginView(APIView):
+    permission_classes = (AllowAny, )
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        user = request.data.get('user', {})
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data)
+
+
