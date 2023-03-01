@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, LoginSerializer
 # Create your views here.
 
 
