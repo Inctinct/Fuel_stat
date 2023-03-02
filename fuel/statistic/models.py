@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
     def create_user(self, password, email, phone,
                     is_admin=False, is_staff=False,
                     is_active=False, is_superuser=False,
-                    tg=''):
+                    ):
         if not phone:
             raise ValueError('User must have phone')
         if not email:
@@ -45,7 +45,6 @@ class UserManager(BaseUserManager):
         user = self.model(phone=phone)
         user.set_password(password)
         user.email = email
-        user.tg = tg
         user.is_admin = is_admin
         user.is_staff = is_staff
         user.is_active = is_active
@@ -72,9 +71,10 @@ class UserManager(BaseUserManager):
 
 
 class RegistredUser(AbstractUser):
+    username = None
     email = models.EmailField()
     phone = models.CharField(max_length=13, unique=True)
-    tg = models.CharField(max_length=50, unique=True)
+    tg = models.CharField(max_length=50, unique=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -112,9 +112,9 @@ class Car(models.Model):
 
 
 class CheckFuel(models.Model):
-    refueling = models.ForeignKey(Refueling, on_delete=models.SET_NULL)
-    fuel = models.ForeignKey(Fuel, on_delete=models.SET_NULL)
+    refueling = models.ForeignKey(Refueling, null=True, on_delete=models.SET_NULL)
+    fuel = models.ForeignKey(Fuel, null=True, on_delete=models.SET_NULL)
     number_of_liters = models.PositiveIntegerField()
     payment_date = models.DateTimeField(auto_now_add=True)
-    car = models.ForeignKey(Car, on_delete=models.SET_NULL)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
 

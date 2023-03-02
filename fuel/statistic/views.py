@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, LoginSerializer
 # Create your views here.
 
 
@@ -30,7 +30,7 @@ class RegistrationView(APIView):
                                    })
         to_email = user.email
         send_mail(mail_subject, message, recipient_list=[to_email],
-                  from_mail=settings.EMAIL_HOST_USER)
+                  from_email=settings.EMAIL_HOST_USER)
 
     def post(self, request):
         user = request.data.get('user')
