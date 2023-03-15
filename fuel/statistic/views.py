@@ -79,10 +79,24 @@ class FuelStatisticView(APIView):
         check = {}
         user = request.user
         check['checks'] = CheckFuel.objects.filter(car__user=user)
-        print(check['checks'][0].number_of_liters)
 
         serializer = CheckFuelSerializer(check)
 
         return Response(serializer.data)
 
 
+class CarStatisticView(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, car_number):
+        check = {}
+        user = request.user
+        check['checks'] = CheckFuel.objects.filter(car__number=car_number, car__user=user)
+
+        serializer = CheckFuelSerializer(check)
+
+        return Response(serializer.data)
+
+
+
+#Уточнить про вьюхи

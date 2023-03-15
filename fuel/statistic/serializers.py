@@ -92,7 +92,6 @@ class CheckSerializer(serializers.Serializer):
     class Meta:
         model = CheckFuel
         fields = '__all__'
-#Написать все в одном сериализаторе
 
 
 class CheckFuelSerializer(serializers.Serializer):
@@ -105,7 +104,6 @@ class CheckFuelSerializer(serializers.Serializer):
             total_spent += item.number_of_liters * item.fuel.price
 
         return total_spent
-
 
 
 
