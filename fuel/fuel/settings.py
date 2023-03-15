@@ -38,6 +38,8 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
