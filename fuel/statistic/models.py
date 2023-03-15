@@ -90,7 +90,7 @@ class RegistredUser(AbstractUser):
 
     @property
     def token(self):
-        return self._generate_jtw_token()
+        return self._generate_jwt_token()
 
     def _generate_jwt_token(self):
         dt = datetime.now() + timedelta(days=1)

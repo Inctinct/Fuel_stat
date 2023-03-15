@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from django.contrib.sites.shortcuts import get_current_site
-from .models import RegistredUser
+from .models import RegistredUser, CheckFuel, Firm
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from .serializers import RegistrationSerializer, LoginSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSerializer
+from django.db.models import F
 # Create your views here.
 
 
@@ -71,3 +72,31 @@ class LoginView(APIView):
         return Response(serializer.data)
 
 
+class FuelStatisticView(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        check = {}
+        user = request.user
+        check['checks'] = CheckFuel.objects.filter(car__user=user)
+
+        serializer = CheckFuelSerializer(check)
+
+        return Response(serializer.data)
+
+
+class CarStatisticView(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, car_number):
+        check = {}
+        user = request.user
+        check['checks'] = CheckFuel.objects.filter(car__number=car_number, car__user=user)
+
+        serializer = CheckFuelSerializer(check)
+
+        return Response(serializer.data)
+
+
+
+#Уточнить про вьюхи
