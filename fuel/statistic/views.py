@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSerializer
 from django.db.models import F
+from .tasks import send_activation_mail
 # Create your views here.
 
 
@@ -19,27 +20,16 @@ class RegistrationView(APIView):
     permission_classes = (AllowAny, )
     serializer_class = RegistrationSerializer
 
-    def send_mail(self, user_id, domain):
-        user = RegistredUser.objects.get(id=user_id)
-        mail_subject = 'ACTIVATION LINK'
-        message = render_to_string('account_activation_email.html',
-                                   {
-                                       'user': user,
-                                       'domain': domain,
-                                       'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                                       'token': account_activation_token.make_token(user)
-                                   })
-        to_email = user.email
-        send_mail(mail_subject, message, recipient_list=[to_email],
-                  from_email=settings.EMAIL_HOST_USER)
-
     def post(self, request):
-        user = request.data.get('user')
+        """
+        create non-active account and send activation mail
+        """
+        user = request.data
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         current_site = get_current_site(request)
-        self.send_mail(user.id, current_site)
+        send_activation_mail.delay(user.id, str(current_site))
 
         return Response(serializer.data)
 
@@ -99,4 +89,3 @@ class CarStatisticView(APIView):
 
 
 
-#Уточнить про вьюхи
