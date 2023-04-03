@@ -118,3 +118,9 @@ class CheckFuel(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
+
+class GpsImitation(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    fuel_sensor = models.PositiveIntegerField()
+    odometer = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
