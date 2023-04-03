@@ -1,5 +1,5 @@
 from random import randint
-from .models import GpsImitation
+
 
 
 def fuel_imitation():
