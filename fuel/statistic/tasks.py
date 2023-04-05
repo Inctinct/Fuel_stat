@@ -33,9 +33,8 @@ def gps_imitation():
     cars = Car.objects.all()
 
     for car in cars:
-        gps = GpsImitation.objects.filter(car=car).order_by('-id')[:1]
         GpsImitation.objects.create(car=car, fuel_sensor=fuel_imitation(),
-                                    odometer=odometer_imitation(gps.odometer))
+                                    odometer=odometer_imitation())
 
 
 @shared_task()
