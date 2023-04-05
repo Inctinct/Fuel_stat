@@ -5,7 +5,7 @@ from .views import RegistrationView, LoginView, ActivationAccountView, FuelStati
 
 urlpatterns = [
     re_path(r'^register/', RegistrationView.as_view()),
-    re_path(r'^login/', LoginView.as_view()),
+    re_path(r'^login/', LoginView.as_view(), name='login'),
     path('activate/<slug:uidb64>/<slug:token>/', ActivationAccountView.as_view(), name='activate'),
     re_path(r'^stat/', FuelStatisticView.as_view()),
     path('car-stat/', CarStatisticView.as_view()),
