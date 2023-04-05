@@ -10,10 +10,11 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'every' : {
         'task' : 'statistic.tasks.gps_imitation',
-        'schedule' : crontab(minute=0, hour='*/1'),
+        'schedule' : crontab(),
     },
     'every' : {
             'task' : 'statistic.tasks.check_imitation',
-            'schedule' : crontab(minute=0, hour='*/12'),
+            'schedule' : crontab(),
         },
 }
+

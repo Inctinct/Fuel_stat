@@ -13,6 +13,7 @@ from .tokens import account_activation_token
 from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSerializer
 from django.db.models import F
 from .tasks import send_activation_mail
+from datetime import datetime
 # Create your views here.
 
 
@@ -67,8 +68,9 @@ class FuelStatisticView(APIView):
 
     def get(self, request):
         check = {}
+        now = datetime.now()
         user = request.user
-        check['checks'] = CheckFuel.objects.filter(car__user=user)
+        check['checks'] = CheckFuel.objects.filter(car__user=user, payment_date__month=now.month)
 
         serializer = CheckFuelSerializer(check)
 
@@ -78,12 +80,18 @@ class FuelStatisticView(APIView):
 class CarStatisticView(APIView):
     permission_classes = (IsAuthenticated, )
 
-    def get(self, request, car_number):
-        check = {}
+    def get(self, request):
+        now = datetime.now()
         user = request.user
-        check['checks'] = CheckFuel.objects.filter(car__number=car_number, car__user=user)
+        car_numbers = request.GET.get('number')
+        list_id = []
+        for car_number in car_numbers.split(','):
 
-        serializer = CheckFuelSerializer(check)
+            checks = CheckFuel.objects.filter(car__number=car_number, car__user=user,
+                                              payment_date__month=now.month).values_list('id', flat=True)
+            list_id.extend(checks)
+        check = (CheckFuel.objects.filter(car__user=user).in_bulk(list_id)).values()
+        serializer = CheckFuelSerializer({'checks': check})
 
         return Response(serializer.data)
 
