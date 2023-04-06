@@ -1,0 +1,10 @@
+[
+    {
+        "model": "statistic.refueling",
+        "pk": 1,
+        "fields": {
+            "adress": "name",
+            "firm": "1"
+        }
+    }
+]

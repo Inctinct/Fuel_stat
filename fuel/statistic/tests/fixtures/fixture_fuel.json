@@ -1,0 +1,10 @@
+[
+    {
+        "model": "statistic.fuel",
+        "pk": 1,
+        "fields": {
+            "name": "dizel",
+            "price": "2"
+        }
+    }
+]
