@@ -1,0 +1,14 @@
+[
+    {
+        "model": "statistic.checkfuel",
+        "pk": 1,
+        "fields": {
+            "refueling": "1",
+            "fuel": "1",
+            "number_of_liters": "40",
+            "payment_date": "2023-02-03 20:19",
+            "car": "1"
+        }
+    }
+]
+
