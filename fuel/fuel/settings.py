@@ -43,6 +43,8 @@ CELERY_IMPORTS = [
     "statistic.tasks"
 ]
 
+TELEGRAMBOT_API_TOKEN = '6199182398:AAFnRAzrh3GaWKyEYPkMR60oI_-_0NDIpHk'
+
 # Application definition
 
 INSTALLED_APPS = [
