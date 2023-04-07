@@ -14,6 +14,7 @@ from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSeria
 from django.db.models import F
 from .tasks import send_activation_mail
 from datetime import datetime
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 
@@ -21,6 +22,13 @@ class RegistrationView(APIView):
     permission_classes = (AllowAny, )
     serializer_class = RegistrationSerializer
 
+    @swagger_auto_schema(
+        request_body=RegistrationSerializer,
+        request_method='POST',
+        responses={
+            200: RegistrationSerializer
+        }
+    )
     def post(self, request):
         """
         create non-active account and send activation mail
@@ -55,6 +63,13 @@ class LoginView(APIView):
     permission_classes = (AllowAny, )
     serializer_class = LoginSerializer
 
+    @swagger_auto_schema(
+        request_body=LoginSerializer,
+        request_method='POST',
+        responses={
+            200: LoginSerializer
+        }
+    )
     def post(self, request):
         user = request.data.get('user', {})
         serializer = self.serializer_class(data=user)
@@ -66,6 +81,12 @@ class LoginView(APIView):
 class FuelStatisticView(APIView):
     permission_classes = (IsAuthenticated, )
 
+    @swagger_auto_schema(
+        request_method="GET",
+        responses={
+            200: CheckFuelSerializer
+        }
+    )
     def get(self, request):
         check = {}
         now = datetime.now()
@@ -80,6 +101,12 @@ class FuelStatisticView(APIView):
 class CarStatisticView(APIView):
     permission_classes = (IsAuthenticated, )
 
+    @swagger_auto_schema(
+        request_mehtod='GET',
+        responses={
+            200: CheckFuelSerializer
+        }
+    )
     def get(self, request):
         now = datetime.now()
         user = request.user
