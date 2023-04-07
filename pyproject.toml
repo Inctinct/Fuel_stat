@@ -25,6 +25,8 @@ aiogram = "^2.25.1"
 drf-yasg = "^1.21.5"
 django-filter = "^23.1"
 django-cors-headers = "^3.14.0"
+asyncio = "^3.4.3"
+prettytable = "^3.6.0"
 
 
 [build-system]
