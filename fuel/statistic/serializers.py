@@ -106,4 +106,8 @@ class CheckFuelSerializer(serializers.Serializer):
         return total_spent
 
 
+class AverageSpeedSerializer(serializers.Serializer):
+    car_number = serializers.CharField()
+    average_speed = serializers.DecimalField(max_digits=10, decimal_places=2)
+
 
