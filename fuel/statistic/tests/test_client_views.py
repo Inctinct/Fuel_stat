@@ -28,20 +28,31 @@ class ApiTest(APITestCase):
         )
 
         url = reverse('login')
-        data = {
-            'email': self.user.email,
+        data = {'user': {
             'phone': self.user.phone,
             'password': 'passw12345',
-        }
+        }}
         json_data = json.dumps(data)
-        self.token = 'Bearer ' + str(
-            self.client.post(url,
-                             data=json_data,
-                             content_type='application/json').data['token'])[2:-1]
+        response = self.client.post(url, data=json_data, content_type='application/json')
+        self.token = 'Bearer ' + str(response.data['token'])
 
     def test_fuel_statistic(self):
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
         url = reverse('fuel_statistic')
         response = self.client.get(url)
         assert response.data == EVERYTHING_EQUALS_NON_NONE
+        assert response.status_code == 200
 
+    def test_car_statistic(self):
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        url = 'http://127.0.0.1:8000/api/car-stat/?number=666'
+        response = self.client.get(url)
+        assert response.status_code == 200
+        assert response.data == EVERYTHING_EQUALS_NON_NONE
+
+    def test_car_speed(self):
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        url = reverse('car_speed')
+        response = self.client.get(url)
+        assert response.status_code == 200
+        assert response.data == EVERYTHING_EQUALS_NON_NONE
