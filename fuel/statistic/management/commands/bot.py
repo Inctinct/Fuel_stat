@@ -33,7 +33,11 @@ async def process_start_command(message: types.Message):
 
 
 @sync_to_async()
-def get_statistic(user_number):
+def get_statistic(user_number: int):
+    """"
+    calculation of analytics by sensors and the formation
+    of this data in a file with the possibility of sending it to the user
+    """
     stat = PrettyTable()
     stat.field_names = ["Fuel sensor", "Odometer", "Refueling liters",
                         "Lack of fuel", "Fuel consumption", "Expected flow fuel"]
@@ -60,6 +64,7 @@ def get_statistic(user_number):
 
 @dp.message_handler(state='*', commands=['statistic'])
 async def statistic(msg: types.Message):
+    """request to generate analytics by phone number"""
     user_number = msg.get_args()
     await get_statistic(user_number)
     await msg.reply_document(open('stat.txt', 'rb'))

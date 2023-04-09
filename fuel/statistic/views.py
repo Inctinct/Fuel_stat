@@ -47,6 +47,7 @@ class ActivationAccountView(APIView):
     permission_classes = (AllowAny, )
 
     def get(self, request, uidb64, token):
+        """ activation account when clicking a link in an email"""
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = RegistredUser.objects.get(id=uid)
@@ -71,6 +72,7 @@ class LoginView(APIView):
         }
     )
     def post(self, request):
+        """login account and create to use some views with permissions"""
         user = request.data.get('user', {})
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
@@ -88,6 +90,7 @@ class FuelStatisticView(APIView):
         }
     )
     def get(self, request):
+        """get statistic for all cars user with total spent money for fuel"""
         check = {}
         now = datetime.now()
         user = request.user
@@ -108,6 +111,7 @@ class CarStatisticView(APIView):
         }
     )
     def get(self, request):
+        """get  statistic for input cars numbers within month period"""
         now = datetime.now()
         user = request.user
         car_numbers = request.GET.get('number')
@@ -135,6 +139,7 @@ class AverageSpeedView(APIView):
 
     )
     def get(self, request):
+        """calculate the average speed of the user's machines based on the data sent"""
         now = datetime.now()
         serializer_dict = {}
         user = request.user
