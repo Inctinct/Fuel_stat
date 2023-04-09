@@ -4,13 +4,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from django.contrib.sites.shortcuts import get_current_site
-from .models import RegistredUser, CheckFuel, Firm
+from .models import RegistredUser, CheckFuel, Firm, GpsImitation, Car
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, CheckFuelSerializer, AverageSpeedSerializer
 from django.db.models import F
 from .tasks import send_activation_mail
 from datetime import datetime
@@ -118,9 +118,41 @@ class CarStatisticView(APIView):
                                               payment_date__month=now.month).values_list('id', flat=True)
             list_id.extend(checks)
         check = (CheckFuel.objects.filter(car__user=user).in_bulk(list_id)).values()
+        print(check)
         serializer = CheckFuelSerializer({'checks': check})
 
         return Response(serializer.data)
+
+
+class AverageSpeedView(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    @swagger_auto_schema(
+        request_method='GET',
+        responses={
+            200: AverageSpeedSerializer
+        }
+
+    )
+    def get(self, request):
+        now = datetime.now()
+        serializer_dict = {}
+        user = request.user
+        cars = set(GpsImitation.objects.filter(car__user=user,
+                                               created_at__month=now.month).values_list('car', flat=True))
+        for car in cars:
+            car_speed = {}
+            odometer = list(GpsImitation.objects.filter(car__id=car).values_list('odometer', flat=True))
+            odometer_sum = sum(odometer)
+            average_speed = odometer_sum / len(odometer)
+            car_number = Car.objects.filter(id=car).values_list('number', flat=True)
+            car_speed['car_number'] = car_number[0]
+            car_speed['average_speed'] = average_speed
+            serializer_dict[car] = car_speed
+        serializer = AverageSpeedSerializer(serializer_dict.values(), many=True)
+
+        return Response(serializer.data)
+
 
 
 
