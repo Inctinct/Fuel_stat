@@ -6,6 +6,7 @@ from .models import RegistredUser
 
 class JWTAuthentication(authentication.BaseAuthentication):
     authentication_header_prefix = 'Bearer'
+    """check token and return token to use his in permissions views"""
 
     def authenticate(self, request):
         request.user = None

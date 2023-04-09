@@ -12,6 +12,7 @@ from .imitation import fuel_imitation, odometer_imitation, refueling_imitation
 
 @shared_task()
 def send_activation_mail(user_id, domain):
+    """sending an email to activate your account"""
     user = RegistredUser.objects.get(id=user_id)
     mail_subject = "ACTIVATION LINK"
     message = render_to_string('account_activation_email.html',
@@ -30,6 +31,7 @@ def send_activation_mail(user_id, domain):
 
 @shared_task()
 def gps_imitation():
+    """imitation of sending data from a machine sensor"""
     cars = Car.objects.all()
 
     for car in cars:
@@ -39,6 +41,7 @@ def gps_imitation():
 
 @shared_task()
 def check_imitation():
+    """imitation of fuel replenishment at a gas station"""
     cars = Car.objects.all()
 
     for car in cars:
