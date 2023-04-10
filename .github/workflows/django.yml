@@ -42,6 +42,5 @@ jobs:
       run: |
         cd fuel
         cd statistic
-        cd tests
         ls -R
         pytest
