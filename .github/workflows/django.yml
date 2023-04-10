@@ -37,9 +37,8 @@ jobs:
       run: |
         pip install poetry
         poetry install 
-    
         
     - name: Test with pytest
       run: |
-      working-directory: fuel_stat/fuel/tests
+      working-directory: fuel/tests
         pytest
