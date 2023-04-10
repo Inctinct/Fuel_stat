@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-+&_&#as*cgb+^fx94bqmmb4zf!x2^mn$$*oqefc08$x8i2wj#4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 EMAIL_HOST = 'smtp.yandex.ru'
@@ -37,8 +37,8 @@ EMAIL_HOST_PASSWORD = "252515Mdd"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_BROKER_BACKEND = 'redis://redis:6379'
 CELERY_IMPORTS = [
     "statistic.tasks"
 ]
@@ -115,9 +115,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fuel_stat_db',
-        'USER': 'postgres',
+        'USER': 'aboba',
         'PASSWORD': '12345',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
