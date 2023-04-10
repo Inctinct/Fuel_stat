@@ -36,8 +36,7 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install poetry
-        poetry config settings.virtualenvs.in-project true
-        poetry install -vv
+        poetry install 
     - name: Lint with Flake8
       run: |
         flake8 . --exit-zero
