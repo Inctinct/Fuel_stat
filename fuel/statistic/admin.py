@@ -4,8 +4,8 @@ from .models import Fuel, Refueling, Firm, CheckFuel, RegistredUser, Car, GpsImi
 
 
 class RegistredUserAdmin(admin.ModelAdmin):
-    list_display = ['phone', 'email', 'is_active', 'tg']
-    search_fields = ['phone', 'email', 'tg']
+    list_display = ['phone', 'email', 'is_active']
+    search_fields = ['phone', 'email']
 
 
 class FuelAdmin(admin.ModelAdmin):

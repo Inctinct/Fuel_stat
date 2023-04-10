@@ -74,7 +74,6 @@ class RegistredUser(AbstractUser):
     username = None
     email = models.EmailField()
     phone = models.CharField(max_length=13, unique=True)
-    tg = models.CharField(max_length=50, unique=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)

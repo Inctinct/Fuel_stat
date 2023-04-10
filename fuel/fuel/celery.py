@@ -8,13 +8,13 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'every' : {
-        'task' : 'statistic.tasks.gps_imitation',
-        'schedule' : crontab(),
+    'every_hour': {
+            'task': 'statistic.tasks.gps_imitation',
+            'schedule': crontab()
     },
-    'every' : {
-            'task' : 'statistic.tasks.check_imitation',
-            'schedule' : crontab(),
+    'every_12_hour': {
+            'task': 'statistic.tasks.check_imitation',
+            'schedule': crontab(),
         },
 }
 

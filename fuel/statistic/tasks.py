@@ -24,7 +24,7 @@ def send_activation_mail(user_id, domain):
                                })
     to_email = user.email
     is_sent = send_mail(mail_subject, message, recipient_list=[to_email],
-              from_email=settings.EMAIL_HOST_USER)
+                        from_email=settings.EMAIL_HOST_USER)
 
     return is_sent
 
@@ -33,7 +33,6 @@ def send_activation_mail(user_id, domain):
 def gps_imitation():
     """imitation of sending data from a machine sensor"""
     cars = Car.objects.all()
-
     for car in cars:
         GpsImitation.objects.create(car=car, fuel_sensor=fuel_imitation(),
                                     odometer=odometer_imitation())

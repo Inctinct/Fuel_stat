@@ -27,13 +27,13 @@ SECRET_KEY = 'django-insecure-+&_&#as*cgb+^fx94bqmmb4zf!x2^mn$$*oqefc08$x8i2wj#4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = "Inctinct.dmitriy@yandex.ru"
+EMAIL_HOST_PASSWORD = "252515Mdd"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
@@ -163,3 +163,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
