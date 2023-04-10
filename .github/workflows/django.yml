@@ -37,9 +37,7 @@ jobs:
       run: |
         pip install poetry
         poetry install 
-    - name: Lint with Flake8
-      run: |
-        flake8 . --exit-zero
+    
         
     - name: Run Tests
       run: |
