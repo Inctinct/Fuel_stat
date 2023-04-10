@@ -41,4 +41,5 @@ jobs:
         
     - name: Test with pytest
       run: |
+      working-directory: fuel_stat/fuel/tests
         pytest
