@@ -9,6 +9,10 @@ git clone https://github.com/Inctinct/Fuel_stat <directory>
 if you use docker:
 
 ```bash
+cd fuel
+```
+
+```bash
 docker compose up --build
 ```
 
