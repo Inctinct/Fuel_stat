@@ -40,5 +40,6 @@ jobs:
         
     - name: Test with pytest
       run: |
-      working-directory: fuel/tests
+        cd fuel
+        cd tasks
         pytest
