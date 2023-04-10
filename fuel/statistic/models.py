@@ -74,7 +74,6 @@ class RegistredUser(AbstractUser):
     username = None
     email = models.EmailField()
     phone = models.CharField(max_length=13, unique=True)
-    tg = models.CharField(max_length=50, unique=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -118,3 +117,9 @@ class CheckFuel(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
+
+class GpsImitation(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    fuel_sensor = models.PositiveIntegerField()
+    odometer = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)

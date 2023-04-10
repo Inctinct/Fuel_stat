@@ -1,0 +1,9 @@
+[
+    {
+        "model": "statistic.firm",
+        "pk": 1,
+        "fields": {
+            "name": "gazprom"
+        }
+    }
+]

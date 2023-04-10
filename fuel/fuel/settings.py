@@ -27,18 +27,23 @@ SECRET_KEY = 'django-insecure-+&_&#as*cgb+^fx94bqmmb4zf!x2^mn$$*oqefc08$x8i2wj#4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = '*****'
-EMAIL_HOST_PASSWORD = '*****'
+EMAIL_HOST_USER = "Inctinct.dmitriy@yandex.ru"
+EMAIL_HOST_PASSWORD = "252515Mdd"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_BROKER_BACKEND = 'redis://redis:6379'
+CELERY_IMPORTS = [
+    "statistic.tasks"
+]
 
-
+TELEGRAMBOT_API_TOKEN = '6199182398:AAFnRAzrh3GaWKyEYPkMR60oI_-_0NDIpHk'
 
 # Application definition
 
@@ -51,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'statistic',
+    'django_celery_beat',
 ]
 
 REST_FRAMEWORK = {
@@ -69,6 +75,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'description': 'Personal API Key authorization',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    }
+}
 
 ROOT_URLCONF = 'fuel.urls'
 
@@ -98,9 +115,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fuel_stat_db',
-        'USER': 'postgres',
+        'USER': 'aboba',
         'PASSWORD': '12345',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -146,3 +163,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

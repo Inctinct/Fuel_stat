@@ -31,6 +31,7 @@ class LoginSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
+        """validation user data for login him in system and give token"""
         phone = data.get('phone', None)
         password = data.get('password', None)
 
@@ -98,12 +99,17 @@ class CheckFuelSerializer(serializers.Serializer):
     checks = CheckSerializer(many=True)
     total_spent = serializers.SerializerMethodField()
 
-    def get_total_spent(self, data):
+    def get_total_spent(self, data) -> float:
+        """calculation of total fuel consumption"""
         total_spent = 0
         for item in data.get('checks'):
             total_spent += item.number_of_liters * item.fuel.price
 
         return total_spent
 
+
+class AverageSpeedSerializer(serializers.Serializer):
+    car_number = serializers.CharField()
+    average_speed = serializers.DecimalField(max_digits=10, decimal_places=2)
 
 
