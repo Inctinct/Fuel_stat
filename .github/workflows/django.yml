@@ -40,5 +40,4 @@ jobs:
         
     - name: Test with pytest
       run: |
-        working-directory: ${{ github.workspace }}/fuel/statistic/tests
         pytest
